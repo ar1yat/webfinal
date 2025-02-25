@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header>
+  <h1>Profile</h1>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#" id="logout-link">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <!-- User Information Section -->
+  <section class="profile-info">
+    <h2>User Information</h2>
+    <p>Name: <span id="username"></span></p>
+    <p>Email: <span id="email"></span></p>
+    <!-- Form for updating profile via fetch -->
+    <form id="profile-form">
+      <div class="form-row">
+        <label for="newUsername">New Username:</label>
+        <input type="text" id="newUsername" name="username" placeholder="Enter new username">
+      </div>
+      <div class="form-row">
+        <label for="newEmail">New Email:</label>
+        <input type="email" id="newEmail" name="email" placeholder="Enter new email">
+      </div>
+      <button type="submit">Update Profile</button>
+    </form>
+  </section>
+
+  <!-- User's Recipes Section -->
+  <section class="recipes">
+    <h2>My Recipes</h2>
+    <button id="toggleRecipeForm">Add Recipe</button>
+
+    <!-- Recipe creation / editing form (vertical layout) -->
+    <form id="recipeForm" style="display: none;">
+      <!-- Hidden field for recipe ID (used in edit mode) -->
+      <input type="hidden" id="recipeId" name="recipeId" />
+
+      <div class="form-row">
+        <label for="title">Recipe Title:</label>
+        <input type="text" id="title" name="title" required>
+      </div>
+
+      <div class="form-row">
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="ingredients">Ingredients (comma separated):</label>
+        <input type="text" id="ingredients" name="ingredients" required>
+      </div>
+
+      <div class="form-row">
+        <label for="instructions">Instructions:</label>
+        <textarea id="instructions" name="instructions" required></textarea>
+      </div>
+
+      <button type="submit" id="saveRecipeBtn">Save Recipe</button>
+    </form>
+
+    <!-- List of user's recipes -->
+    <div id="recipeList"></div>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2025 Recipes. All rights reserved.</p>
+</footer>
+
+<script src="js/profile.js"></script>
+</body>
+</html>

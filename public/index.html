@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header>
+    <h1>Home Page</h1>
+    <nav>
+        <ul id="nav-links">
+            <!-- Ссылки, которые будем динамически показывать/скрывать -->
+            <li><a href="index.html">Home</a></li>
+            <li class="nav-register"><a href="register.html">Register</a></li>
+            <li class="nav-login"><a href="login.html">Login</a></li>
+            <li class="nav-profile"><a href="profile.html">Profile</a></li>
+            <li class="nav-logout"><a href="#" id="logout-link">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <h2>Welcome to the Recipes App</h2>
+
+    <!-- Контейнер для вывода всех рецептов -->
+    <div id="allRecipesList" style="margin-top: 20px;"></div>
+</main>
+
+<footer>
+    <p>&copy; 2025 Recipes. All rights reserved.</p>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Считываем токен из localStorage
+        const token = localStorage.getItem('token');
+
+        // Находим элементы навигации
+        const navRegister = document.querySelector('.nav-register');
+        const navLogin = document.querySelector('.nav-login');
+        const navProfile = document.querySelector('.nav-profile');
+        const navLogout = document.querySelector('.nav-logout');
+
+        // Если токен есть, значит пользователь залогинен
+        if (token) {
+            // Показываем Profile и Logout, скрываем Register и Login
+            navRegister.style.display = 'none';
+            navLogin.style.display = 'none';
+            navProfile.style.display = 'inline-block';
+            navLogout.style.display = 'inline-block';
+        } else {
+            // Иначе пользователь не залогинен
+            // Показываем Register и Login, скрываем Profile и Logout
+            navRegister.style.display = 'inline-block';
+            navLogin.style.display = 'inline-block';
+            navProfile.style.display = 'none';
+            navLogout.style.display = 'none';
+        }
+
+        // Обработчик логаута: удаляем токен и переходим на login.html
+        const logoutLink = document.getElementById('logout-link');
+        logoutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
+        });
+
+        // Вызываем загрузку всех рецептов (если хотите, чтобы они отображались сразу)
+        fetchAllRecipes();
+    });
+
+    function fetchAllRecipes() {
+        // Если эндпоинт публичный, токен не нужен
+        // Если он защищён, нужно передать заголовок Authorization
+        fetch('/api/recipes/all')
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to fetch all recipes');
+                return response.json();
+            })
+            .then(recipes => {
+                const container = document.getElementById('allRecipesList');
+                container.innerHTML = ''; // Очищаем перед перезаписью
+
+                recipes.forEach(recipe => {
+                    // Создаём элемент для каждого рецепта
+                    const recipeDiv = document.createElement('div');
+                    recipeDiv.classList.add('recipe');
+                    recipeDiv.style.border = '1px solid #ccc';
+                    recipeDiv.style.padding = '10px';
+                    recipeDiv.style.marginBottom = '10px';
+
+                    // Если .populate('author', 'username'), то recipe.author.username будет именем автора
+                    const authorName = recipe.author ? recipe.author.username : 'Unknown';
+
+                    recipeDiv.innerHTML = `
+            <h3>${recipe.title}</h3>
+            <p><strong>Author:</strong> ${authorName}</p>
+            <p>${recipe.description}</p>
+            <p><strong>Ingredients:</strong> ${recipe.ingredients.join(', ')}</p>
+            <p><strong>Instructions:</strong> ${recipe.instructions}</p>
+          `;
+
+                    container.appendChild(recipeDiv);
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                const container = document.getElementById('allRecipesList');
+                container.innerHTML = '<p style="color:red;">Error loading recipes</p>';
+            });
+    }
+</script>
+
+</body>
+</html>

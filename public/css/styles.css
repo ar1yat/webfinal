@@ -1,0 +1,145 @@
+/* Сброс базовых стилей */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Стилизация шапки сайта */
+header {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+}
+
+header nav ul {
+    list-style: none;
+    margin-top: 10px;
+}
+
+header nav ul li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Основной контейнер */
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+}
+
+/* Стилизация форм */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin: 10px 0 5px;
+}
+
+form input,
+form textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    margin-top: 15px;
+    padding: 10px;
+    border: none;
+    background-color: #4CAF50;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+/* Стили рецептов */
+.recipe {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.recipe h2 {
+    margin-bottom: 10px;
+}
+
+/* Футер */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+}
+.register-btn {
+    background-color: #fff;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+}
+
+.register-btn:hover {
+    background-color: #4CAF50;
+    color: #fff;
+}
+.form-row {
+    display: flex;
+    flex-wrap: wrap;         /* Позволяем перенос на новую строку при нехватке места */
+    gap: 10px;               /* Расстояние между элементами */
+    align-items: flex-start; /* Выравниваем элементы по верхнему краю */
+}
+
+.form-row label {
+    font-weight: bold;
+    margin-right: 5px;
+    white-space: nowrap;     /* Чтобы слово "Ingredients:" не переносилось */
+}
+
+.form-row input,
+.form-row textarea {
+    width: 200px;            /* Все поля одной ширины (можно поменять) */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;        /* Разрешаем менять высоту textarea */
+}
+
+#saveRecipeBtn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#saveRecipeBtn:hover {
+    background-color: #45a049;
+}

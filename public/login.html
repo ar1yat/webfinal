@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header>
+    <h1>Login</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <!-- Блок для отображения сообщения об успехе, если есть -->
+    <div id="success-message" style="color: green; margin-bottom: 10px;"></div>
+
+    <!-- Блок для отображения ошибки -->
+    <div id="error-message" style="color: red; margin-bottom: 10px;"></div>
+
+    <!-- Форма для логина через fetch -->
+    <form id="login-form">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <!-- Кнопка для перехода на страницу регистрации -->
+    <button class="register-btn" onclick="window.location.href='register.html'">
+        Register
+    </button>
+</main>
+
+<footer>
+    <p>&copy; 2025 Recipes. All rights reserved.</p>
+</footer>
+
+<script>
+    // Обработчик отправки формы (логин через fetch)
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+                // Выводим сообщение об ошибке
+                document.getElementById('error-message').textContent = data.error || 'An error occurred';
+            } else {
+                // Сохраняем токен в localStorage
+                localStorage.setItem('token', data.token);
+                // Переходим на страницу профиля
+                window.location.href = '/profile.html';
+            }
+        } catch (err) {
+            console.error(err);
+            document.getElementById('error-message').textContent = 'An error occurred';
+        }
+    });
+
+    // Считываем параметр "message" из URL (если пользователь был редиректнут с ?message=...)
+    const params = new URLSearchParams(window.location.search);
+    const msg = params.get('message');
+
+    if (msg) {
+        document.getElementById('success-message').textContent = msg;
+    }
+</script>
+</body>
+</html>
